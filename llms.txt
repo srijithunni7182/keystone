@@ -1,0 +1,43 @@
+# Keystone
+
+> The intelligent credential librarian for AI agents.
+
+Keystone is a local, high-performance security daemon in Rust that manages API keys and secrets for autonomous AI agents. Instead of static environment variables (`.env` files), agents discover credentials through semantic intent, and raw keys never enter an agent's memory indefinitely. 
+
+It provides:
+- Semantic Search using FastEmbed (local embeddings)
+- Temporal control with Just-In-Time (JIT) access TTLs
+- Guardrails via Human-In-The-Loop (HITL) CLI approvals
+- Full audit trails of every secret requested by an agent
+
+## Key Technical Details
+- **Language**: Rust
+- **Storage**: Encrypted SQLite using SQLCipher
+- **Master Key**: Argon2id derivation from native OS Keyrings (Keychain, DPAPI, libsecret)
+- **Local AI**: `fastembed` using `all-MiniLM-L6-v2` models for local cosine similarity
+- **Interfaces**:
+  - Model Context Protocol (MCP) server over `stdio`
+  - Unix Domain Sockets (JSON-RPC) for custom local clients
+  - Powerful CLI for vault management
+
+## Documentation
+
+The project documentation is available in the following files:
+
+- [README.md](README.md): Architecture overview, build instructions, and quick command examples.
+- [docs/VISION.md](docs/VISION.md): The problem statement on the danger of over-provisioned `.env` files for AI agents, and Keystone's "USB Vault" solution. Includes references to OpenClaw CVEs.
+- [docs/CLI_GUIDE.md](docs/CLI_GUIDE.md): Exhaustive man-page style reference for all Keystone commands (`add`, `search`, `get`, `serve`, `approve`, `audit`, etc.)
+
+## Source Code Map
+- `src/main.rs`: CLI and command dispatch
+- `src/store/`: SQLCipher database, Models, and Repository
+- `src/enclave/`: OS Keyring abstraction and Argon2id master key securing
+- `src/intelligence/`: Local fastembed embedding generation and semantic matching
+- `src/gateway/`: UDS Server and MCP Server implementation
+- `src/cli/`: Clap command definitions and executors
+
+## Building
+
+```bash
+cargo build --release
+```
