@@ -1,0 +1,45 @@
+[package]
+name = "keystone"
+version = "0.1.0"
+edition = "2024"
+description = "A local security daemon for AI agent credential management"
+license = "Apache-2.0"
+readme = "README.md"
+
+[dependencies]
+# Cryptography & Key Management
+argon2 = "0.5"
+keyring = { version = "3", features = ["linux-native"] }
+zeroize = { version = "1", features = ["derive"] }
+rand = "0.9"
+sha2 = "0.10"
+base64 = "0.22"
+
+# Encrypted Storage
+rusqlite = { version = "0.32", features = ["bundled-sqlcipher"] }
+
+# Data Modeling
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# CLI
+clap = { version = "4", features = ["derive"] }
+dirs-next = "2"
+
+# Async Runtime
+tokio = { version = "1", features = ["full"] }
+
+# MCP Server (official Rust SDK)
+rmcp = { version = "0.16", features = ["server", "transport-io"] }
+schemars = "0.8"
+
+# Error Handling & Logging
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+fastembed = "5.11.0"
+
+[dev-dependencies]
+tempfile = "3"
