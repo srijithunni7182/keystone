@@ -19,6 +19,16 @@ Consider the modern AI agent loop:
 
 If the agent goes rogue, hallucinates, or is tricked by a malicious prompt-injection in a random open-source issue, it holds all the keys to the kingdom. There is no audit log of what it did with that key, and there was no way to stop it.
 
+## Real-World Consequences: The OpenClaw Example
+
+The risks of over-provisioning are not theoretical. Consider **OpenClaw**, one of the most popular open-source AI agents on GitHub. Despite its massive success in automating tasks, its sweeping access model has made it a prime target for exploits in 2026:
+
+- **Token Exfiltration (CVE-2026-25253):** A critical Remote Code Execution (RCE) vulnerability allowed attackers to steal a user's entire authentication token simply through a crafted link, gaining full control over the agent's gateway.
+- **The "ClawHavoc" Supply Chain Attack:** Hackers flooded the official OpenClaw plugin marketplace (ClawHub) with malicious "skill baits." Because agents operate with broad environmental access, these plugins successfully installed infostealers to siphon API keys and cryptographic tokens directly from the host system.
+- **Exposed Public Instances:** Tens of thousands of OpenClaw instances were left publicly exposed with unsafe defaults. Because credentials were unconditionally loaded into the environment, they became easy pickings for automated scrapers.
+
+When an AI agent is compromised—whether through a malicious plugin, a prompt injection, or a zero-day exploit—**every environment variable it can see is instantly exposed.**
+
 ## The USB Vault Analogy
 
 Imagine giving a contractor a master key that opens every door in your house, just so they can fix the sink in the downstairs bathroom. That is what we are doing with environment variables today.
