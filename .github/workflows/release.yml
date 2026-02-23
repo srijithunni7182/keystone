@@ -46,6 +46,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y pkg-config libssl-dev build-essential
 
       - name: Build Binary
+        env:
+          ORT_STRATEGY: download
         run: cargo build --release --target ${{ matrix.platform.target }}
 
       - name: Package Binary (Linux / macOS)
